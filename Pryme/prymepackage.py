@@ -3,7 +3,6 @@ from functools import lru_cache
 import random
 import sympy
 from itertools import permutations
-import numpy as np
 
 _primes=None
 
