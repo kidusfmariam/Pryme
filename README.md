@@ -1,4 +1,4 @@
-# Pryme: A Python Module for Working with Prime Numbers (Not published yet)
+# Pryme: A Python Module for Working with Prime Numbers
 
 The `Pryme` package provides various utilities for working with prime numbers. This document outlines the functions available in the package, along with their descriptions and usage.
 
