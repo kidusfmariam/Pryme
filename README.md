@@ -177,18 +177,6 @@ Finds the first `n` Cuban primes of the second kind.
 **Returns:**
 - List of integers: Cuban primes of the second kind.
 
-### `mod_exp(base, exp, mod)`
-
-Computes `(base^exp) % mod` efficiently using modular exponentiation.
-
-**Parameters:**
-- `base` (int): The base of the exponentiation.
-- `exp` (int): The exponent.
-- `mod` (int): The modulus.
-
-**Returns:**
-- Integer: Result of `(base^exp) % mod`.
-
 ### `lucas_test(n, k)`
 
 Performs the Lucas primality test `k` times on a number `n` to determine if it's prime, composite, or possibly composite.
@@ -220,16 +208,6 @@ Provides an estimate of the number of prime numbers less than or equal to a give
 **Returns:**
 - Integer: Estimated count of prime numbers less than or equal to `n`.
 
-### `circular(n)`
-
-Returns the first `n` circular primes, which are primes that remain prime under any circular permutation of their digits.
-
-**Parameters:**
-- `n` (int): The number of circular primes to find.
-
-**Returns:**
-- List of integers: Circular primes.
-
 ### `mersenne(n)`
 
 Returns the first `n` Mersenne primes (primes of the form `2^p - 1` where `p` is also prime).
@@ -239,11 +217,7 @@ Returns the first `n` Mersenne primes (primes of the form `2^p - 1` where `p` is
 
 **Returns:**
 - List of integers: Mersenne primes.
-
-## Notes
-
-- The `circular` function is currently commented out. It can be uncommented for use.
-- The `Pryme` package provides efficient computation of various prime-related functions, leveraging caching and efficient algorithms where possible.
+- **Note**: Mersenne Primes are extremeley expensive to compute. The function works fine to return up to 10 mersenne primes but grows slower as it returns more Mersenne primes. It took me roughly 1 minute to generate 20 Mersenne primes.
 
 ## Example Usage
 
