@@ -10,7 +10,22 @@ The package requires the following libraries:
 - `random`
 - `sympy`
 - `itertools` (for `permutations`)
+## Installation
+`pip install PrymePython`
 
+## Usage
+```
+import Pryme as pm
+
+
+x=pm.mersenne(10)
+y=pm.sophie(12)
+z=pm.twins(23)
+
+print(x)
+print(y)
+print(z)
+```
 ## Functions
 
 ### `list_primes(n)`
