@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 setup(
     name='TothNumeris',
     version='0.0.10',
-    packages=find_packages(include=['Pryme', 'Pryme.*']),
+    packages=find_packages(include=['TothNumeris', 'Pryme.*']),
     description='A python package for prime number utilities.',
     author='Kidus F.mariam Ayalew',
     author_email='kidusfmariamayalew@gmail.com',
