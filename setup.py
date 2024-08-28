@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Pryme',
+    name='PrimoSphere',
     version='0.0.10',
     packages=find_packages(include=['Pryme', 'Pryme.*']),
     description='A python package for prime number utilities.',
