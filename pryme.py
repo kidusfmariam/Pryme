@@ -1,7 +1,9 @@
 import math
 from functools import lru_cache
 import random
+import sympy
 from itertools import permutations
+import numpy as np
 
 _primes=None
 
@@ -26,16 +28,7 @@ def get_primes():
 
 #Determines if a given number n is prime by checking divisibility up to its square root.
 def is_prime(n):
-    if n <= 1:
-        return False
-    if n == 2 or n == 3:
-        return True
-    if n % 2 == 0 or n % 3 == 0:
-        return False
-    for i in range(5, int(math.sqrt(n)) + 1, 6):
-        if n % i == 0 or n % (i + 2) == 0:
-            return False
-    return True
+    return sympy.isprime(n)
 #Calculates the sum of all prime numbers up to a given number n.
 def sum_primes(n):
     return sum(list_primes(n))
@@ -43,10 +36,27 @@ def sum_primes(n):
 
 #Returns a list of the prime factors of a given number n.
 def prime_factors(n):
+    """Return the list of prime factors of 'n'."""
+    if n <= 1:
+        return []
+    
     factors = []
-    for i in range(2, n + 1):
-        if n % i == 0 and is_prime(i):
-            factors.append(i)
+    limit = int(n**0.5) + 1
+    primes = list_primes(limit)
+
+    # Check for each prime up to sqrt(n)
+    for prime in primes:
+        if prime * prime > n:
+            break
+        if n % prime == 0:
+            factors.append(prime)
+            while n % prime == 0:
+                n //= prime
+
+    # If n is still greater than 1, then it's a prime factor
+    if n > 1:
+        factors.append(n)
+    
     return factors
 
 
@@ -81,20 +91,29 @@ def prime_product(n):
     return product
 
 def prime_sum_pairs(n):
-    pass
+    primes = get_primes()
+    prime_set = set(primes)  # Use a set for fast lookup
+    pairs = []
+    for i in range(len(primes)):
+        for j in range(i + 1, len(primes)):
+            if primes[i] + primes[j] in prime_set:
+                pairs.append((primes[i], primes[j]))
+
+    return pairs
 
 #Generates a list of the first n primes that remain prime when their digits are reversed.
 def mirror(n):
     mirrors=[]
     primes=get_primes()
-    while len(mirrors)<=n:
-        for i in primes:
-            if is_prime(int(str(i)[::-1])):
-                mirrors.append(i)
+    for i in primes:
+        if len(mirrors)>=n:
+            break
+        if is_prime(int(str(i)[::-1])):
+            mirrors.append(i)
     return mirrors
 
 #Returns a list of the first n twin prime pairs (pairs of primes that differ by 2).
-def twin_primes(n):
+def twins(n):
     primes = list_primes(n)
     return [(primes[i], primes[i+1]) for i in range(len(primes) - 1) if primes[i+1] - primes[i] == 2]
 
@@ -202,35 +221,35 @@ def prime_count_estimate(n):
 '''
 returns the first n number of circular primes
 def circular(n):
-    p=get_primes()
-    circulars=[]
-    prime_set = set(p)  
-    
-    for prime in p:
-        # Generate all permutations of the digits of the prime
-        perms = {int(''.join(p)) for p in permutations(str(prime))}
-        
-        # Check if all permutations are prime and also in the primes list
-        if all(perm in prime_set for perm in perms):
-            if prime not in circulars:
-                circulars.append(prime)
-        
-        # Stop when we've found n circular primes
+    primes = get_primes() 
+    prime_set = set(primes) 
+    circulars = []
+
+    for prime in primes:
         if len(circulars) >= n:
             break
+
+        str_prime = str(prime)
+        perms = {int(''.join(p)) for p in permutations(str_prime)}
+
+        if all(perm in prime_set for perm in perms):
+            circulars.append(prime)
     
     return circulars
 
-print(circular(50))
 '''
 
-# Returns the first 8 mersenne primes
-def mersenne():
-    p=get_primes()
-    mersenne_primes=[]
-    for prime in p:
-        if is_prime((2**prime)-1):
-            mersenne_primes.append(2**prime-1)
-            if len(mersenne_primes)>=8:
-                break
+
+#Returns the first n amount of mersenne primes (proceed with caution!)
+def mersenne(n):
+    mersenne_primes = []
+    p = 2  # Starting prime
+    while len(mersenne_primes) < n:
+        if sympy.isprime(p):
+            mersenne_candidate = 2**p - 1
+            if sympy.isprime(mersenne_candidate):
+                mersenne_primes.append(mersenne_candidate)     
+        p += 1
     return mersenne_primes
+print(mersenne(19))
+
