@@ -10,8 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/<PYPI_PACKAGE_NAME>
-    permissions:
+      url: https://pypi.org/p/Pryme
       id-token: write
     steps:
       - uses: actions/checkout@v4
