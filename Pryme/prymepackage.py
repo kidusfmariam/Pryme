@@ -250,5 +250,4 @@ def mersenne(n):
                 mersenne_primes.append(mersenne_candidate)     
         p += 1
     return mersenne_primes
-print(mersenne(19))
 
