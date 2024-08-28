@@ -10,6 +10,8 @@ setup(
     author='Kidus F.mariam Ayalew',
     author_email='kidusfmariamayalew@gmail.com',
     url='https://github.com/kidusfmariam/Pryme',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     install_requires=[
         'sympy',
     ],
