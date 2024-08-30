@@ -267,7 +267,7 @@ def circular(n):
 def mersenne(n):
     """Return the first n Mersenne primes."""
     mersenne_primes = set()
-    p = 2  # Starting prime
+    p = 2  
 
     while len(mersenne_primes) < n:
         if sympy.isprime(p):
