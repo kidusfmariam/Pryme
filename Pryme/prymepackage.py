@@ -278,7 +278,4 @@ def mersenne(n):
 
     return sorted(mersenne_primes)
 
-print(mersenne(21))
-
-
 
