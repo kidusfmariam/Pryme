@@ -61,24 +61,23 @@ def prime_factors(n):
     if n <= 1:
         return []
 
-    factors = []
+    factors = set()
 
     # Handle factor of 2
     while n % 2 == 0:
-        factors.append(2)
+        factors.add(2)
         n //= 2
 
     # Pollard's Rho for larger factors
     while n > 1:
         if is_prime(n):
-            factors.append(n)
+            factors.add(n)
             break
         
         factor = pollards_rho(n)
         while n % factor == 0:
-            factors.append(factor)
+            factors.add(factor)
             n //= factor
-    factors=set((factors))
     return sorted(factors)
 
 
