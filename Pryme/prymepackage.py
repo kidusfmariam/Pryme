@@ -18,16 +18,19 @@ def list_primes(n):
     primes = [x for x in range(n + 1) if sieve[x]]
     return primes
 
+
 #Returns a cached list of all prime numbers up to 2,000,000, generating it if it hasn't been created yet.
 def get_primes():
     global _primes
     if _primes is None:
-        _primes = list_primes(2000000)
+        _primes = list_primes(3000000)
     return _primes
 
 #Determines if a given number n is prime by checking divisibility up to its square root.
 def is_prime(n):
     return sympy.isprime(n)
+
+
 #Calculates the sum of all prime numbers up to a given number n.
 def sum_primes(n):
     return sum(list_primes(n))
@@ -35,28 +38,49 @@ def sum_primes(n):
 
 #Returns a list of the prime factors of a given number n.
 def prime_factors(n):
-    """Return the list of prime factors of 'n'."""
+    """Return the list of prime factors of n using optimized methods."""
+
+    def pollards_rho(n):
+    #Pollard's Rho algorithm for finding a nontrivial factor of n.
+        if n % 2 == 0:
+            return 2
+        if isprime(n):
+            return n
+        
+        x = random.randint(1, n - 1)
+        y = x
+        d = 1
+        f = lambda z: (z * z + 1) % n
+
+        while d == 1:
+            x = f(x)
+            y = f(f(y))
+            d = math.gcd(abs(x - y), n)
+            
+        return d
     if n <= 1:
         return []
-    
+
     factors = []
-    limit = int(n**0.5) + 1
-    primes = list_primes(limit)
 
-    # Check for each prime up to sqrt(n)
-    for prime in primes:
-        if prime * prime > n:
+    # Handle factor of 2
+    while n % 2 == 0:
+        factors.append(2)
+        n //= 2
+
+    # Pollard's Rho for larger factors
+    while n > 1:
+        if is_prime(n):
+            factors.append(n)
             break
-        if n % prime == 0:
-            factors.append(prime)
-            while n % prime == 0:
-                n //= prime
+        
+        factor = pollards_rho(n)
+        while n % factor == 0:
+            factors.append(factor)
+            n //= factor
+    factors=set((factors))
+    return sorted(factors)
 
-    # If n is still greater than 1, then it's a prime factor
-    if n > 1:
-        factors.append(n)
-    
-    return factors
 
 
 #Finds the next prime number greater than n using caching to speed up repeated calls.
@@ -209,7 +233,7 @@ def prime_digit_sum(n):
             sum += int(digit) 
         if is_prime(sum):
             return True
-    return False
+    raise ValueError("Input must be a prime number. ")
 
 #provides an estimate of the number of prime numbers less than or equal to a given number n using the Prime Number Theorem (PNT).
 def prime_count_estimate(n):
@@ -241,13 +265,20 @@ def circular(n):
 
 #Returns the first n amount of mersenne primes (proceed with caution!)
 def mersenne(n):
-    mersenne_primes = []
+    """Return the first n Mersenne primes."""
+    mersenne_primes = set()
     p = 2  # Starting prime
+
     while len(mersenne_primes) < n:
         if sympy.isprime(p):
             mersenne_candidate = 2**p - 1
             if sympy.isprime(mersenne_candidate):
-                mersenne_primes.append(mersenne_candidate)     
+                mersenne_primes.add(mersenne_candidate)
         p += 1
-    return mersenne_primes
+
+    return sorted(mersenne_primes)
+
+print(mersenne(21))
+
+
 
